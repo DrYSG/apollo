@@ -22,5 +22,10 @@
     "graphql"
   ],
   "author": "YSG",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.9.7",
+    "graphql": "^14.5.8",
+    "parcel-bundler": "^1.12.4"
+  }
 }
