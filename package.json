@@ -1,0 +1,19 @@
+{
+  "name": "apollo",
+  "version": "1.0.0",
+  "description": "apollo server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://ysg4206@bitbucket.draper.com/scm/fdi/apollo.git"
+  },
+  "keywords": [
+    "apollo",
+    "graphql"
+  ],
+  "author": "YSG",
+  "license": "MIT"
+}
