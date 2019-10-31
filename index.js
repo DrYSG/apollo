@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server')
 
-//const {africom} = require('./dbConn.js')
+const {africom} = require('./dbConn.js')
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
