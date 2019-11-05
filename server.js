@@ -1,6 +1,7 @@
-const { ApolloServer, gql } = require('apollo-server')
+//const { ApolloServer, gql } = require('apollo-server')
+import { ApolloServer, gql } from 'apollo-server'
 
-const {db} = require('./db')
+import * as DB from './db'
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -40,7 +41,8 @@ const resolvers = {
   Query: {
     books: () => books,
     findBook: (parent, who) => {
-      return books[1]}
+      return books[1]
+    }
   },
 }
 
@@ -52,3 +54,13 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
+
+async function setup() {
+  await DB.dbSetup()
+  await DB.populate()
+  let users = await DB.findAll()
+  console.log(users)
+  DB.close()
+}
+
+setup()

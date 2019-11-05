@@ -1,44 +1,48 @@
-const Sequelize = require('sequelize');
+import { Sequelize } from 'sequelize'
+import { userData } from './userData'
 
-const { userData } = require('./userData')
+export const DB = new Sequelize('m3_db', 'postgres', 'yechezkal', { dialect: 'postgres' })
 
-const DB = new Sequelize('m3_db', 'postgres', 'yechezkal',
-    {
-        dialect: 'postgres'
-    })
-DB
-    .authenticate()
-    .then(() => {
-        console.log('Connected to DB');
-    })
-    .catch((err) => {
-        console.error('Unable to connect to DB', err);
-    });
+let User = DB.define('users', {
+    firstName: Sequelize.STRING,
+    lastName: Sequelize.STRING,
+    addressNumber: Sequelize.INTEGER,
+    streetName: Sequelize.STRING,
+    city: Sequelize.STRING,
+    email: Sequelize.STRING,
+})
 
-async function findAllRows() {
-
-    let notes = await user.findAll({ raw: true });
-    console.log(notes);
-
-    sequelize.close();
+export async function dbSetup() {
+    try {
+        await DB.authenticate()
+        console.log('Connected to DB')
+    } catch (err) {
+        console.error('Unable to connect to DB', err)
+    }
 }
 
-
-async function populate() {
-    sequelize.sync({ force: true }).then(() => {
-        DB.bulkCreate(userData, { validate: true }).then(() => {
-            console.log('users created');
-        }).catch((err) => {
-            console.log('failed to create users');
-            console.log(err);
-        }).finally(() => {
-            sequelize.close();
-        });
-    });
-
+export async function select(id) {
+    let who = await User.findAll({ where: { id: id } })
+    return who.get({ plain: true })
 }
 
-module.exports = {
-    DB: DB,
-    populate: populate
+export async function populate() {
+    await DB.sync({ force: true })
+    try {
+        await User.bulkCreate(userData, { validate: true })
+        console.log('users created');
+    } catch (err) {
+        console.error('failed to create users')
+        console.error(err)
+    } finally {
+    }
+}
+
+export async function findAll() {
+    let users = await User.findAll({ raw: true })
+    return users
+}
+
+export async function close() {
+    DB.close()
 }
