@@ -6,6 +6,11 @@
 * npm update
 * npm udpate -D // dev updates
 
+## Github
+* git clone https://github.com/DrYSG/apollo.git
+* npm update
+* npm udpate -D // dev updates
+
 ## Development buiding 
 
 * manual: npm run build
