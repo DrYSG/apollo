@@ -1,17 +1,9 @@
 import { gql } from 'apollo-server'
+import DB from './db'
+import {GraphQLDateTime} from 'graphql-iso-date'
 
-
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
 export const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
+  scalar DateTime
 
   type User {
     firstName: String
@@ -20,39 +12,31 @@ export const typeDefs = gql`
     streetName: String
     city: String
     email: String
+    createdAt: DateTime
+    updatedAt: DateTime
   }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    books: [Book]
-    findBook(author: String): Book
     users: [User]
     findUser(firstName: String): User
   }
 `
 
-export const books = [
-  {
-    title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
-  },
-]
-
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {
   Query: {
-    books: () => books,
-    findBook: (parent, who) => {
-      return books[1]
+    users: async () => {
+      let users = await DB.findAll()
+      return users
     },
-    users: () => [],
-    findUser: (parent, name) => { }
-  },
+    findUser: async (parent, {firstName}) => {
+      let who = await DB.findFirst(firstName)
+      return who
+    },
+  }
+}
+
+export async function connect() {
+  await DB.dbSetup()
+  await DB.populate()
+  let users = await DB.findAll()
+  console.log(users)
 }
