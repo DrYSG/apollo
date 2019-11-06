@@ -31,7 +31,11 @@ class DB {
     async findFirst(name) {
         let me = await this.User.findAll({ where: { firstName: name } })
         return me[0].get({ plain: true })
+    }
 
+    async addUser(user) {
+        let me = await this.User.create(user)
+        return me.get({ plain: true })
     }
 
     async  populate() {
