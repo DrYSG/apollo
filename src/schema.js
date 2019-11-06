@@ -6,7 +6,7 @@ export const typeDefs = gql`
   scalar DateTime
 
   type User {
-    id: ID
+    id: Int
     firstName: String
     lastName: String
     addressNumber: Int
@@ -17,18 +17,22 @@ export const typeDefs = gql`
     updatedAt: DateTime
   }
 
+  input UserType {
+    firstName: String
+    lastName: String
+    addressNumber: Int
+    streetName: String
+    city: String
+    email: String
+  }
+
   type Query {
     users: [User]
     findUser(firstName: String): User
   }
 
   type Mutation {
-    addUser(firstName: String,
-      lastName: String,
-      addressNumber: Int,
-      streetName: String,
-      city: String,
-      email: String): User!
+    addUser(user: UserType): User!
   }
 
   type Subscription {
@@ -49,7 +53,7 @@ export const resolvers = {
   },
   Mutation: {
     addUser: async (parent, args) => {
-      let who = await DB.addUser(args)
+      let who = await DB.addUser(args.user)
       return who
     }
   }
