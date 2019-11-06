@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize'
 import { userData } from './userData'
 
-export const DB = new Sequelize('m3_db', 'postgres', 'yechezkal', { dialect: 'postgres' })
+export const DB = new Sequelize('m3_db', 'postgres', 'yechezkal', { dialect: 'postgres', logging: false })
 
 let User = DB.define('users', {
     firstName: Sequelize.STRING,

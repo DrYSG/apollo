@@ -8,8 +8,8 @@
     "Chrome 74"
   ],
   "scripts": {
-    "build": "parcel server.js --target node",
-    "build-watch": "parcel watch server.js --target node",
+    "build": "parcel ./src/server.js --target node",
+    "build-watch": "parcel watch ./src/server.js --target node",
     "test": "./node_modules/.bin/jest --watch"
   },
   "repository": {
