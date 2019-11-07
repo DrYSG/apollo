@@ -7,6 +7,7 @@ export const typeDefs = gql`
 
   type User {
     id: Int
+    "English First Name"
     firstName: String
     lastName: String
     addressNumber: Int
@@ -18,6 +19,7 @@ export const typeDefs = gql`
   }
 
   input UserType {
+    "Hebrew First Name"
     firstName: String
     lastName: String
     addressNumber: Int
@@ -42,10 +44,11 @@ export const typeDefs = gql`
 
 export const resolvers = {
   Query: {
-    users: async () => {
-      let users = await DB.findAll()
-      return users
-    },
+    // users: async () => {
+    //   let users = await DB.findAll()
+    //   return users
+    // },
+    users: () => DB.findAll(),
     findUser: async (parent, { firstName }) => {
       let who = await DB.findFirst(firstName)
       return who
